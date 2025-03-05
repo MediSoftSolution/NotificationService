@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification Test</title>
+    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+</head>
+<body>
+<h1>Bildirim Test Sayfası</h1>
+<script>
+    const socket = io("http://localhost:5000");
+    socket.emit("joinRoom", "doctor123"); // Örnek doktor ID
+
+    socket.on("receiveNotification", (message) => {
+        alert("📢 Bildirim: " + message);
+    });
+</script>
+</body>
+</html>
