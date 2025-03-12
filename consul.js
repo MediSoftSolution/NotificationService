@@ -1,34 +1,42 @@
 const Consul = require('consul');
 
 const consul = new Consul({
-    host: 'localhost', // Consul'un çalıştığı host
-    port: 8500,        // Consul'un portu
-    promisify: true
+    host: 'localhost',
+    port: 8500,
+    promisify: true // Enable promise-based API
 });
 
-async function registerService() {
-    const serviceId = 'notification-service';
-
+async function registerService(serviceId, serviceName, serviceAddress, servicePort, tags = []) {
     try {
-        await consul.agent.service.deregister(serviceId);
-        console.log(`[Consul] ${serviceId} deregistered`);
-
+        // Register the service with Consul
         await consul.agent.service.register({
             id: serviceId,
-            name: 'notification-service',
-            address: '127.0.0.1', // Servisin çalıştığı host
-            port: 3000, // Express'in çalıştığı port
-            tags: ['notification', 'email'],
+            name: serviceName,
+            address: serviceAddress,
+            port: servicePort,
+            tags: tags,
             check: {
-                http: 'http://127.0.0.1:3000/health', // Health Check
-                interval: '10s'
+                http: `http://${serviceAddress}:${servicePort}/health`,
+                interval: '10s' // Health check interval
             }
         });
 
         console.log(`[Consul] ${serviceId} registered`);
     } catch (error) {
-        console.error('Consul Registration Error:', error);
+        console.error(`Consul Registration Error for ${serviceId}:`, error);
+        throw error; // Propagate the error up if needed
     }
 }
 
-module.exports = { registerService };
+async function deregisterService(serviceId) {
+    try {
+        // Deregister any existing service with the same ID (if exists)
+        await consul.agent.service.deregister(serviceId);
+        console.log(`[Consul] ${serviceId} deregistered`);
+    } catch (error) {
+        console.error(`Consul Deregistration Error for ${serviceId}:`, error);
+        throw error; // Propagate the error up if needed
+    }
+}
+
+module.exports = { registerService, deregisterService };

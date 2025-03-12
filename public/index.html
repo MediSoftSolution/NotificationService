@@ -1,19 +1,25 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Notification Test</title>
-    <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification Service</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-<h1>Bildirim Test Sayfası</h1>
-<script>
-    const socket = io("http://localhost:5000");
-    socket.emit("joinRoom", "doctor123"); // Örnek doktor ID
-
-    socket.on("receiveNotification", (message) => {
-        alert("📢 Bildirim: " + message);
-    });
-</script>
+    <h1>Welcome to Notification Service</h1>
+    <p>This is a sample index page for Notification Service.</p>
 </body>
 </html>
