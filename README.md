@@ -29,7 +29,6 @@ The **NotificationService** manages the following:
 - **Email Notifications**: Sends emails to patients with **appointment confirmations**, **laboratory results**, and **reminders**.
 - **SMS/Push Notifications**: Support for SMS and push notifications (can be configured).
 - **Customizable Templates**: Allows admins to define the structure of emails and messages.
-- **Scheduled Notifications**: Sends notifications at a specific time, like before appointments.
 - **Notification Logging**: Logs all sent notifications for tracking and auditing purposes.
 
 ---
